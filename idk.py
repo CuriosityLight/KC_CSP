@@ -14,7 +14,7 @@ def funny(choice_player, choice, coins):
     if choice == "0 green":
         print("0 green")
         if choice_player == "green" or "0":
-            coins + bet_amount
+            coins += bet_amount
             return choice_player, choice, coins
         else:
             print("you lost")

@@ -152,9 +152,7 @@ manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        print("gambling time!!")
-        print("you can gain health, gain some health, break even, lose some health, lose a lot of health, or lose ALL your health (very rare), and a some secrets too!!!")
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin"])
+        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
@@ -178,13 +176,18 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 coin_gambled += 1
             elif coin_gambled == 1:
                 print("you gambled and got nothing, you wouldve gotton a coing but you already got it")
-        gamba_again = input("do you want to gamble again? (yes or no)")
+        elif gamba == "double":
+            player["hp"] += player["hp"]
+            print("you doubled you health! you now have ", player["hp"], "hp")
+        
+        gamba_again = input("do you want to gamble again? (yes or no) ")
         if gamba_again == "yes":
             gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
         elif gamba_again == "no":
             return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled    
         else:
             gamba_again = input("yes or no")    
+
 gamba = ""
 action3 = ""
 search_amount3 = 0
@@ -198,8 +201,8 @@ castle_diamond = 0
 # if you search THRICE, it says the same thing
 # IF YOU SEARCH FOR THE FOURTH TIIIMMEEE, you get castle's diamond might uss for a quest that rewards you with nothing.
 def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-    print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it")
-    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search)")
+    print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it.")
+    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search) ")
     if action3 == "leave":
         current_room -= 1
         return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
@@ -220,6 +223,8 @@ def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, cast
             print("you dont know how to turn the slots machine on, maybe try reading the manuel")
             return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled 
         elif manuel_read == 1:
+            print("gambling time!!")
+            print("you can gain health, gain some health, break even, lose some health, lose a lot of health, or lose ALL your health (very rare), and a some secrets too!!!")
             gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
             return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
     elif action3 == "search":
@@ -311,7 +316,7 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
             print("you searched again and found nothing")
 
     
-
+fought6 = 0
 # room 6 (the dangerous room)
     # 3 moster in a row to kill, but if you grabbed a weapon from room 5 you have 20 monster fight.
 # the monsters will gain upgraded armor and weapons if you grabbed a weapon from room 5
@@ -320,10 +325,31 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
 def room6():
     print("room 6, which is very dangerous, watch out a lot of enemies are here")
     if weapon_grabbed == "gifted":
-        print("because you grabbed the gifted vicious bee, theres 3 more enemy than usualy but the bee lowered the health of all the enemy")
-        enemy["hp"] - 5
+        if fought6 == 0:
+            print("because you grabbed the gifted vicious bee, theres 3 more enemy than usualy but the bee lowered the health of all the enemy")
+            enemy["hp"] -= 5
+            combat(player, enemy)
+            combat(player, enemy)
+            combat(player, enemy)
+            combat(player, enemy)
+            combat(player, enemy)
+            fought6 += 1
+        else:
+            print("well you already killed them")
     elif weapon_grabbed == "subspace":
-        print("because you grabbed the subspace tripmine, theres 3 more enemy than usual, but the subspace tripmine insta killed 2 of them")
+        if fought6 == 0:
+            print("because you grabbed the subspace tripmine, theres 3 more enemy than usual, but the subspace tripmine insta killed 3 of them yet hurt you slightly")
+            player["hp"] -= 5
+            combat(player, enemy)
+            combat(player, enemy)
+            fought6 += 1
+        else:
+            print("well you already killed them")
+    else:
+        if fought6 == 0:
+            print("because you didnt grab any weapon, theres only 3 enemys rather than 5")
+        else:
+            print("well you already killed them")
 
 # room 7 (the exit)
     # when you have went to every room and grabbed the coin from each, you win. if not then the room will stay locked untill then.
@@ -347,6 +373,13 @@ def room7():
 #    current_room, player, monster = 2nd(player, monster)
 
 # check if user died, loser
+while True:
+    if player["hp"] >= 0:
+        print("you lost")
+        break
+
+
+
 # check if user won
 while True:
     if current_room == 1:
