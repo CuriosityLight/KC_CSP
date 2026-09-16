@@ -50,8 +50,11 @@ def combat(player, enemy):
                 elif enemy_attack == "defend":
                     enemy["hp"] -= player["H_attack"]
                     print("they defended and you hit them with a heavy attack! you damaged them.")
-            if turn2 == "item":
+            elif turn2 == "item":
                 print(player["inventory"])
+            elif turn2 == "kill thy enemy":
+                enemy["hp"] -= 32873208
+                print("you kinda just cheated...")
         elif turn == "defend":
             if enemy_attack == "light":
                 print("as you defended, they try to hit you with a light attack!, you healed.")
@@ -152,7 +155,7 @@ manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain"])
+        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain", "gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "coin", "double", "gain", "little gain"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
