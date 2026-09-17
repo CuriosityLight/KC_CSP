@@ -216,7 +216,7 @@ manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin"])
+        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain", "nothing", "gain", "little gain", "nothing", "coin", "double"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
@@ -240,13 +240,20 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 coin_gambled += 1
             elif coin_gambled == 1:
                 print("you gambled and got nothing, you wouldve gotton a coing but you already got it")
-        gamba_again = input("do you want to gamble again? (yes or no)")
-        if gamba_again == "yes":
-            gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
-        elif gamba_again == "no":
-            return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled    
+        elif gamba == "double":
+            player["hp"] + player["hp"]
+        if player["hp"] <= 0:
+            print("you gambled your life away...")
+            exit()
         else:
-            gamba_again = input("yes or no")    
+            while True:
+                gamba_again = input("do you want to gamble again? (yes or no)")
+                if gamba_again == "yes":
+                    gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
+                elif gamba_again == "no":
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled    
+                else:
+                    print("yes or no")    
 gamba = ""
 action3 = ""
 search_amount3 = 0
@@ -424,7 +431,7 @@ def room6(enemy_killed2, weapon_grabbed, enemy, player, search6):
     # also theres a boss too.
 # a door back to room 6
 final_choice = ""
-def room7():
+def room7(coin_amount, final_choice, current_room):
     if coin_amount == 7:
         final_choice = input("the door opens, youre about to fight the final boss, are you sure you want to enter?")
         if final_choice == "yes":
@@ -466,5 +473,5 @@ while True:
     elif current_room == 6:
         enemy_killed2, weapon_grabbed, enemy, player, search6 = room6(enemy_killed2, weapon_grabbed, enemy, player, search6)
     elif current_room == 7:
-        room7()
+        coin_amount, final_choice, current_room = room7(coin_amount, final_choice, current_room)
 
