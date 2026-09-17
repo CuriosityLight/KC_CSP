@@ -1,9 +1,12 @@
 # keegan carter, text based adventure game
 import random
+
+
+
 ######################## step 1: variables #######################
 player = {   # <==== dictonary (key & value pair to give details about an item)
     "hp": 20,
-    "L_attack": 5,
+    "L_attack": 6,
     "H_attack": 10,
     "defense": 5,
     "inventory": []
@@ -12,10 +15,22 @@ player = {   # <==== dictonary (key & value pair to give details about an item)
 enemy = {
     "hp": 8,
     "L_attack": 4,
-    "H_attack"
+    "H_attack": 7,
     "defense": 2,
 }
 
+boss = {
+    "hp": 200,
+    "L_attack": 30,
+    "H_attack": 40,
+    "defense": 5,
+
+}
+
+
+while True:
+    if player["hp"] > 0:
+        break
 # varible for the current room
 current_room = 1
 coin_amount = 0
@@ -50,11 +65,8 @@ def combat(player, enemy):
                 elif enemy_attack == "defend":
                     enemy["hp"] -= player["H_attack"]
                     print("they defended and you hit them with a heavy attack! you damaged them.")
-            elif turn2 == "item":
+            if turn2 == "item":
                 print(player["inventory"])
-            elif turn2 == "kill thy enemy":
-                enemy["hp"] -= 32873208
-                print("you kinda just cheated...")
         elif turn == "defend":
             if enemy_attack == "light":
                 print("as you defended, they try to hit you with a light attack!, you healed.")
@@ -75,6 +87,55 @@ def combat(player, enemy):
             break
     return player, enemy
 
+
+
+def combat_boss(player, boss):
+    while True:
+        boss_attack = random.choice(["light", "heavy", "defend"])
+        print("you have ", player["hp"], " hp")
+        print("the enemy has ", boss["hp"], " hp")
+        turn_boss = input("would you like to attack, defend, use item, (attack, defend, item) ")
+        if turn_boss == "attack":
+            turn2_boss = input("would you like to light attack, heavy attack, attack with item or attack secondary. (light, heavy or item) ")
+            if turn2_boss == "light":
+                if boss_attack == "light":
+                    print("you hit with a light attack and so does the enemy. nothing happens")
+                elif boss_attack == "heavy":
+                    boss["hp"] -= player["L_attack"]
+                    print("your enemy tried to hit you with a heavy attack but you quickly hit them with a light attack.")
+                elif boss_attack == "defend":
+                    boss["hp"] += 10
+                    print("the enemy defended and gained more hp")
+            elif turn2_boss == "heavy":
+                if boss_attack == "light":
+                    player["hp"] -= boss["L_attack"]
+                    print("as you try to attack the enemy with a heavy attack, they quickly attack you with a light attck. you take damage...")
+                elif boss_attack == "heavy":
+                    print("the enemy did a heavy attack, you did as well. nothing happened")
+                elif boss_attack == "defend":
+                    boss["hp"] -= player["H_attack"]
+                    print("they defended and you hit them with a heavy attack! you damaged them.")
+            if turn2_boss == "item":
+                print(player["inventory"])
+        elif turn_boss == "defend":
+            if boss_attack == "light":
+                print("as you defended, they try to hit you with a light attack!, you healed.")
+                player["hp"] += 2
+            elif boss_attack == "heavy":
+                print("as you defended, they hit you with a heavy attack... you take damage,")
+                player["hp"] -= boss["H_attack"]
+            elif boss_attack == "defend":
+                print("as you defended, they did too. nothing happend")          
+        else:
+            print("please select one of the moves")
+         #check to see if died, break out of the loop
+        if player["hp"] <= 0:
+            print("you died to the enemy. try again loser")
+            break
+        if boss["hp"] <= 0: 
+            print("you have killed the enemy!")
+            break
+    return player, boss
 
 # in combat, the user can either attack (it has its sub categories), defend, use item,
     # attack sub categories: light attack, heavy attack, attack with item.
@@ -155,7 +216,7 @@ manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain", "gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "coin", "double", "gain", "little gain"])
+        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "nothing", "little lose", "lose", "all", "coin"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
@@ -179,18 +240,13 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 coin_gambled += 1
             elif coin_gambled == 1:
                 print("you gambled and got nothing, you wouldve gotton a coing but you already got it")
-        elif gamba == "double":
-            player["hp"] += player["hp"]
-            print("you doubled you health! you now have ", player["hp"], "hp")
-        
-        gamba_again = input("do you want to gamble again? (yes or no) ")
+        gamba_again = input("do you want to gamble again? (yes or no)")
         if gamba_again == "yes":
             gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
         elif gamba_again == "no":
             return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled    
         else:
             gamba_again = input("yes or no")    
-
 gamba = ""
 action3 = ""
 search_amount3 = 0
@@ -204,8 +260,8 @@ castle_diamond = 0
 # if you search THRICE, it says the same thing
 # IF YOU SEARCH FOR THE FOURTH TIIIMMEEE, you get castle's diamond might uss for a quest that rewards you with nothing.
 def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-    print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it.")
-    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search) ")
+    print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it")
+    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search)")
     if action3 == "leave":
         current_room -= 1
         return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
@@ -318,48 +374,67 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
         elif coinfound5 == 1:
             print("you searched again and found nothing")
 
-    
-fought6 = 0
+search6 = 0
+action6 = ""
+enemy_killed2 = 0
 # room 6 (the dangerous room)
     # 3 moster in a row to kill, but if you grabbed a weapon from room 5 you have 20 monster fight.
 # the monsters will gain upgraded armor and weapons if you grabbed a weapon from room 5
 # if you search, you find a potion. the user wont know what it does, but it does -25 hp. you can drink it or throw it onto enemies.
 # a door to room 5, room 7
-def room6():
+def room6(enemy_killed2, weapon_grabbed, enemy, player, search6):
     print("room 6, which is very dangerous, watch out a lot of enemies are here")
-    if weapon_grabbed == "gifted":
-        if fought6 == 0:
+    if enemy_killed2 == 0:
+        if weapon_grabbed == "gifted":
             print("because you grabbed the gifted vicious bee, theres 3 more enemy than usualy but the bee lowered the health of all the enemy")
-            enemy["hp"] -= 5
+            enemy["hp"] -= 12
             combat(player, enemy)
             combat(player, enemy)
             combat(player, enemy)
             combat(player, enemy)
             combat(player, enemy)
-            fought6 += 1
+            enemy_killed2 += 1
+        elif weapon_grabbed == "subspace":
+            print("because you grabbed the subspace tripmine, theres 2 more enemy than usual, but the subspace tripmine insta killed 3 of them")
+            combat(player, enemy)
+            combat(player, enemy)
+            enemy_killed2 += 1
         else:
-            print("well you already killed them")
-    elif weapon_grabbed == "subspace":
-        if fought6 == 0:
-            print("because you grabbed the subspace tripmine, theres 3 more enemy than usual, but the subspace tripmine insta killed 3 of them yet hurt you slightly")
-            player["hp"] -= 5
+            print("because you didnt grab anything theres only 3 enemeys instead of 5")
             combat(player, enemy)
             combat(player, enemy)
-            fought6 += 1
-        else:
-            print("well you already killed them")
+            combat(player, enemy)
+            enemy_killed2 += 1
     else:
-        if fought6 == 0:
-            print("because you didnt grab any weapon, theres only 3 enemys rather than 5")
+        action6 = input("would you like to go back to room 5 or try to go foward to room 7 or search (7 or 5 or search) ")
+        if action6 == "5":
+            current_room -= 1
+        elif action6 == "7":
+            current_room += 1
+        elif action6 == "search":
+            if search6 == 0:
+                print("you found a potion")
+                
+            else:
+                print("theres nothing left")
         else:
-            print("well you already killed them")
-
+            action6 = input("5, 7 or search")
 # room 7 (the exit)
     # when you have went to every room and grabbed the coin from each, you win. if not then the room will stay locked untill then.
     # also theres a boss too.
 # a door back to room 6
+final_choice = ""
 def room7():
-    print("you have won the game congrats!!!")
+    if coin_amount == 7:
+        final_choice = input("the door opens, youre about to fight the final boss, are you sure you want to enter?")
+        if final_choice == "yes":
+            combat_boss(player, boss)
+            print("you have won the game congrats!!!")
+        elif final_choice == "no":
+            current_room -= 1
+    else:
+        print("door has not opened yet, go find the rest. you have ", coin_amount-7, "left")
+        current_room -= 1
 
 
 # to win you have to explore every room, you have to find a coin from each room (via searching or from a drop from enemies) and go to room 7 where you then have to defeat a boss.
@@ -376,13 +451,6 @@ def room7():
 #    current_room, player, monster = 2nd(player, monster)
 
 # check if user died, loser
-while True:
-    if player["hp"] >= 0:
-        print("you lost")
-        break
-
-
-
 # check if user won
 while True:
     if current_room == 1:
@@ -396,6 +464,7 @@ while True:
     elif current_room == 5:
         weapon_grabbed, coinfound5, current_room, action5, coin_amount = room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount)
     elif current_room == 6:
-        room6()
+        enemy_killed2, weapon_grabbed, enemy, player, search6 = room6(enemy_killed2, weapon_grabbed, enemy, player, search6)
     elif current_room == 7:
         room7()
+
