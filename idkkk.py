@@ -75,7 +75,10 @@ def combat(player, enemy):
                 print("as you defended, they hit you with a heavy attack... you take damage,")
                 player["hp"] -= enemy["H_attack"]
             elif enemy_attack == "defend":
-                print("as you defended, they did too. nothing happend")          
+                print("as you defended, they did too. nothing happend")
+        elif turn == "kill thy enemy":
+            enemy["hp"] -= 327892387923 
+            print("you kinda uh cheated...")         
         else:
             print("please select one of the moves")
          #check to see if died, break out of the loop
