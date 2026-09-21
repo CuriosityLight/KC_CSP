@@ -216,7 +216,7 @@ def room2(action2, current_room, search_2, coin_amount):
             return 2, coin_amount, search_2
 
  
-coin_gambled = ""
+coin_gambled = 0
 manuel_read = 0
 gamba_again = ""
 
@@ -256,7 +256,13 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 if gamba_again == "yes":
                     gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
                 elif gamba_again == "no":
-                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled    
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+                elif gamba_again == "coin free fr fr":
+                    coin_amount += 1
+                    coin_gambled += 1
+                    print("suddenly a coin fell out of the slot machine!")
+                    print(coin_amount, "/7")
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
                 else:
                     print("yes or no")    
 gamba = ""
