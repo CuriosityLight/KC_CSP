@@ -223,7 +223,7 @@ def room(action, room1_coin, coin_amount, current_room):
     if action == "search":
         if room1_coin == 0:
             coin_amount += 1
-            print("you found a coin, ", coin_amount, "/7")
+            print("you found a coin, ", coin_amount, "/6")
             room1_coin = 1
             return action, room1_coin, coin_amount, current_room
         elif room1_coin == 1:
@@ -261,7 +261,7 @@ def room2(action2, current_room, search_2, coin_amount, castle_diamond):
         elif search_2 == 1:
             print("you searched again and found a coin!")
             coin_amount += 1
-            print(coin_amount, "/7")
+            print(coin_amount, "/6")
             return action2, current_room, search_2, coin_amount, castle_diamond
     else:
         print("pick one of the objects")
@@ -312,7 +312,7 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                     coin_amount += 1
                     coin_gambled += 1
                     print("suddenly a coin fell out of the slot machine!")
-                    print(coin_amount, "/7")
+                    print(coin_amount, "/6")
                     return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
                 else:
                     print("yes or no")    
@@ -385,7 +385,7 @@ def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, cast
             print("why search anymore?")
             return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
     else:
-        action3 = input("leave, read, start, or search")
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
         
             
 action4 = ""
@@ -399,8 +399,8 @@ def room4(player, enemy, enemy_killed, action4, current_room, coin_amount, turn,
         print("uh oh, theres an enemy outside!")
         combat(player, enemy, turn, turn2, enemy_attack, sword)
         enemy_killed += 1
-        print("luckily the enemy dropped a coin!")
         coin_amount += 1
+        print("luckily the enemy dropped a coin!")
         print("you now have ", coin_amount, "/6")
         return player, enemy, enemy_killed, action4, current_room, coin_amount, turn, turn2, enemy_attack, sword
     elif enemy_killed == 1:
@@ -445,8 +445,8 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
         if coinfound5 == 0:
             print("you found a coin or whatever")
             coin_amount += 1
-            print("you now have ", coin_amount, "/6")
             coinfound5 +=1
+            print(coin_amount, "/6")
             return weapon_grabbed, coinfound5, current_room, action5, coin_amount
         elif coinfound5 == 1:
             print("you searched again and found nothing")
@@ -454,7 +454,7 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
     elif action5 == "glass door":
                 current_room += 3
                 return weapon_grabbed, coinfound5, current_room, action5, coin_amount
-
+search_6 = 0
 search6 = 0
 action6 = ""
 enemy_killed2 = 0
@@ -499,11 +499,20 @@ def room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, curren
             return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
         elif action6 == "search":
             if search6 == 0:
-                print("you found a potion")
+                print("you found a potion, its useless")
                 return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
             else:
-                print("theres nothing left")
-                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+                if search_6 == 0:
+                    print("theres nothing left...?")
+                    search_6 += 1
+                    return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+                elif search_6 == 1:
+                    print("uhh why are you searching")
+                    search_6 += 1
+                    return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+                elif search_6 == 2:
+                    print("stop it")
+                    search_6 = 3
         else:
             action6 = input("5, 7 or search")
             return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
@@ -539,7 +548,7 @@ def roomCastle(current_room, player, castle_diamond, sword):
 # a door back to room 6
 final_choice = ""
 def room7(coin_amount, final_choice, current_room, player, boss):
-    if coin_amount == 7:
+    if coin_amount == 6:
         final_choice = input("the door opens, youre about to fight the final boss, are you sure you want to enter?")
         if final_choice == "yes":
             combat_boss(player, boss)
