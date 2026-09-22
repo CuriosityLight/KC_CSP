@@ -212,7 +212,8 @@ room1_coin = 0
 # a door goes to only room 2
 action = ""
 print("             You dont know how you got here. but all you have in mind is to get stronger")
-print("remember to get the coin in each room, you might not be able to go back")
+print("remember to get the coin in each room, some require patience, some require luck...")
+print("find the secrets")
 
 def room(action, room1_coin, coin_amount, current_room):
     print("This is the first room, you cant see much but theres only 1 door...")
@@ -220,7 +221,7 @@ def room(action, room1_coin, coin_amount, current_room):
     if action == "next":
             current_room += 1
             return action, room1_coin, coin_amount, current_room
-    if action == "search":
+    elif action == "search":
         if room1_coin == 0:
             coin_amount += 1
             print("you found a coin, ", coin_amount, "/6")
@@ -229,6 +230,8 @@ def room(action, room1_coin, coin_amount, current_room):
         elif room1_coin == 1:
             print("you already searched, you found nothing.")
             return action, room1_coin, coin_amount, current_room
+    else:
+        return action, room1_coin, coin_amount, current_room
 
 
 search_2 = 0
@@ -265,14 +268,14 @@ def room2(action2, current_room, search_2, coin_amount, castle_diamond):
             return action2, current_room, search_2, coin_amount, castle_diamond
     else:
         print("pick one of the objects")
-
+        return action2, current_room, search_2, coin_amount, castle_diamond
  
 coin_gambled = 0
 manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "gain", "little gain", "coin",  "nothing", "little lose", "lose", "all", "coin", "double", "gain", "little gain", "nothing", "gain", "little gain", "nothing", "coin", "double"])
+        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "coin", "double", "all", "double"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
@@ -298,6 +301,8 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 print("you gambled and got nothing, you wouldve gotton a coing but you already got it")
         elif gamba == "double":
             player["hp"] + player["hp"]
+        else:
+            print("huh")
         if player["hp"] <= 0:
             print("you gambled your life away...")
             exit()
@@ -316,6 +321,8 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                     return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
                 else:
                     print("yes or no")    
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+egg_room = 0
 gamba = ""
 action3 = ""
 search_amount3 = 0
@@ -328,12 +335,16 @@ castle_diamond = 0
 # if you search TWICE, it says the same thing
 # if you search THRICE, it says the same thing
 # IF YOU SEARCH FOR THE FOURTH TIIIMMEEE, you get castle's diamond might uss for a quest that rewards you with nothing.
-def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
+def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room):
+    egg_room += 1
+    if egg_room == 12:
+        current_room += 6
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
     print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it")
     action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search)")
     if action3 == "leave":
         current_room -= 1
-        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
     elif action3 == "read":
         if manuel_read == 0:
             print("""you read the manuel:
@@ -342,50 +353,50 @@ def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, cast
                   step 2: insert your hp!
                   step 3: GAMBlING!!!!!!""")
             manuel_read += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif manuel_read == 1:
             print("you already read it")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
     elif action3 == "start":
         if manuel_read == 0:
             print("you dont know how to turn the slots machine on, maybe try reading the manuel")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled 
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif manuel_read == 1:
             print("gambling time!!")
             print("you can gain health, gain some health, break even, lose some health, lose a lot of health, or lose ALL your health (very rare), and a some secrets too!!!")
             gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
     elif action3 == "search":
         if search_amount3 == 0:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif search_amount3 == 1:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif search_amount3 == 2:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif search_amount3 == 3:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif search_amount3 == 4:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         elif search_amount3 == 5:
             print("you search one more time, and found castles diamond!!!!!!")
             search_amount3 +=1
             castle_diamond +=1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         else:
             print("why search anymore?")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
     else:
-        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
         
             
 action4 = ""
@@ -463,7 +474,7 @@ enemy_killed2 = 0
 # the monsters will gain upgraded armor and weapons if you grabbed a weapon from room 5
 # if you search, you find a potion. the user wont know what it does, but it does -25 hp. you can drink it or throw it onto enemies.
 # a door to room 5, room 7
-def room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword):
+def room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount):
     print("room 6, which is very dangerous, watch out a lot of enemies are here")
     if enemy_killed2 == 0:
         if weapon_grabbed == "gifted":
@@ -475,47 +486,69 @@ def room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, curren
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             enemy_killed2 += 1
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
         elif weapon_grabbed == "subspace":
             print("because you grabbed the subspace tripmine, theres 2 more enemy than usual, but the subspace tripmine insta killed 3 of them")
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             enemy_killed2 += 1
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
         else:
             print("because you didnt grab anything theres only 3 enemys instead of 5")
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             combat(player, enemy, turn, turn2, enemy_attack, sword)
             enemy_killed2 += 1
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
     else:
         action6 = input("would you like to go back to room 5 or try to go foward to room 7 or search (7 or 5 or search) ")
         if action6 == "5":
             current_room -= 1
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
         elif action6 == "7":
             current_room += 1
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
         elif action6 == "search":
             if search6 == 0:
                 print("you found a potion, its useless")
-                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
-            else:
-                if search_6 == 0:
-                    print("theres nothing left...?")
-                    search_6 += 1
-                    return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
-                elif search_6 == 1:
-                    print("uhh why are you searching")
-                    search_6 += 1
-                    return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
-                elif search_6 == 2:
-                    print("stop it")
-                    search_6 = 3
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 1:
+                print("theres nothing left...?")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 2:
+                print("uhh why are you searching")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 3:
+                print("stop it")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 4:
+                print("no.")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 5:
+                print("no.")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 6:
+                print("no.")
+                search6 += 1
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 7:
+                print("fine take the dang coin")
+                search6 += 1
+                coin_amount += 1
+                print(coin_amount, "/6")
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
+            elif search6 == 8:
+                print("okay actually stop")
+                return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
         else:
             action6 = input("5, 7 or search")
-            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword
+            return enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount
 
 
 def roomCastle(current_room, player, castle_diamond, sword):
@@ -539,6 +572,24 @@ def roomCastle(current_room, player, castle_diamond, sword):
         print("hes gone, so you go back to whatever you were")
         current_room -= 3
         return current_room, player, castle_diamond, sword
+
+leave_egg = ""
+def eggroom(egg_room, current_room):
+    print("well theres a tree here...")
+    print("you got the egg")
+    leave_egg = input("do you want to leave? ")
+    if leave_egg == "yes":
+        egg_room = -21328238783
+        current_room -= 6
+        return egg_room, current_room
+    elif leave_egg == "no":
+        egg_room = -21328238783
+        current_room -= 6
+        return egg_room, current_room
+    else:
+        egg_room = -21328238783
+        current_room -= 6
+        return egg_room, current_room
 
 
 
@@ -581,7 +632,7 @@ while True:
     elif current_room == 2:
         action2, current_room, search_2, coin_amount, castle_diamond = room2(action2, current_room, search_2, coin_amount, castle_diamond)
     elif current_room == 3:
-        action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled = room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
+        action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room = room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room)
     elif current_room == 4:
         player, enemy, enemy_killed, action4, current_room, coin_amount, turn, turn2, enemy_attack, sword = room4(player, enemy, enemy_killed, action4, current_room, coin_amount, turn, turn2, enemy_attack, sword)
     elif current_room == 5:
@@ -592,4 +643,5 @@ while True:
         coin_amount, final_choice, current_room, player, boss = room7(coin_amount, final_choice, current_room, player, boss)
     elif current_room == 8:
         current_room, player, castle_diamond, sword = roomCastle(current_room, player, castle_diamond, sword)
-
+    elif current_room == 9:
+        egg_room, current_room = eggroom(egg_room, current_room)
