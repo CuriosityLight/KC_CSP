@@ -273,34 +273,47 @@ def room2(action2, current_room, search_2, coin_amount, castle_diamond):
 coin_gambled = 0
 manuel_read = 0
 gamba_again = ""
+gamba_rand = SystemRandom()
 
-def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "gain", "little gain", "little lose", "lose", "coin", "double", "all", "double"])
-        if gamba == "gain":
+def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand):
+        gamba = gamba_rand.randint(1, 10)
+#        gamba = random.choice(["gain", "little gain", "nothing", "gain", "little gain", "little lose", "lose", "coin", "double", "all", "double"])
+        if gamba == 1:
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")
-        elif gamba == "little gain":
+        elif gamba == 2:
             player["hp"] += 5
             print("you gambled and gain some hp, you now have ", player["hp"], " hp.")
-        elif gamba == "nothing":
+        elif gamba == 3:
             print("you gambled yet nothing happend")
-        elif gamba == "little lose":
+        elif gamba == 4:
             player["hp"] -= 5
-        elif gamba == "lose":
+        elif gamba == 5:
             player["hp"] -= 10
             print("you gambled and lose a lot of hp, you now have ", player["hp"], " hp.")
-        elif gamba == "all":
+        elif gamba == 6:
             player["hp"] = 1
             print("oh no... you lossed all your hp, you only have 1 hp left.")
-        elif gamba == "coin":
+        elif gamba == 7:
             if coin_gambled == 0:
                 coin_amount += 1
                 print("you gambled and got a coin!")
                 coin_gambled += 1
             elif coin_gambled == 1:
-                print("you gambled and got nothing, you wouldve gotton a coing but you already got it")
-        elif gamba == "double":
-            player["hp"] + player["hp"]
+                print("you gambled and got nothing, you wouldve gotten a coin but you already got it")
+        elif gamba == 8:
+            player["hp"] += player["hp"]
+            print("you gambled and doubled you hp! you now have", player["hp"], "hp left")
+        elif gamba == 9:
+            player["hp"] *= 3
+            print("you gambled and tripled your hp! you now have", player["hp"], "hp left")
+        elif gamba == 10:
+            player["hp"] *= 4
+            print("you gambled and QUADRUPLED your hp! you now have", player["hp"], "hp left")
+        elif gamba == 11:
+            player["hp"] /= 2
+            round(player["hp"])
+            print("you gambled and sadly halved you hp")
         else:
             print("huh")
         if player["hp"] <= 0:
@@ -310,18 +323,18 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
             while True:
                 gamba_again = input("do you want to gamble again? (yes or no)")
                 if gamba_again == "yes":
-                    gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
+                    gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand)
                 elif gamba_again == "no":
-                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand
                 elif gamba_again == "coin free fr fr":
                     coin_amount += 1
                     coin_gambled += 1
                     print("suddenly a coin fell out of the slot machine!")
                     print(coin_amount, "/6")
-                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand
                 else:
                     print("yes or no")    
-                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled
+                    return coin_amount, manuel_read, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand
 egg_room = 0
 gamba = ""
 action3 = ""
@@ -335,16 +348,16 @@ castle_diamond = 0
 # if you search TWICE, it says the same thing
 # if you search THRICE, it says the same thing
 # IF YOU SEARCH FOR THE FOURTH TIIIMMEEE, you get castle's diamond might uss for a quest that rewards you with nothing.
-def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room):
+def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand):
     egg_room += 1
     if egg_room == 12:
         current_room += 6
-        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it")
-    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search)")
+    action3 = input("would you like to leave back to the hallways, read the manuel, or start the slot machine. (leave, read, start, or search) ")
     if action3 == "leave":
         current_room -= 1
-        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     elif action3 == "read":
         if manuel_read == 0:
             print("""you read the manuel:
@@ -353,50 +366,52 @@ def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, cast
                   step 2: insert your hp!
                   step 3: GAMBlING!!!!!!""")
             manuel_read += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif manuel_read == 1:
             print("you already read it")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     elif action3 == "start":
         if manuel_read == 0:
             print("you dont know how to turn the slots machine on, maybe try reading the manuel")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif manuel_read == 1:
             print("gambling time!!")
             print("you can gain health, gain some health, break even, lose some health, lose a lot of health, or lose ALL your health (very rare), and a some secrets too!!!")
-            gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled)
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            print("disclaimer: the machine may malfunction and now work and you have to gamble again to work")
+            print("extra disclaimer: by playing this machine, we are not reliable if you die...")
+            gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand)
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     elif action3 == "search":
         if search_amount3 == 0:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif search_amount3 == 1:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif search_amount3 == 2:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif search_amount3 == 3:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif search_amount3 == 4:
             print("you searched and found nothing")
             search_amount3 += 1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         elif search_amount3 == 5:
             print("you search one more time, and found castles diamond!!!!!!")
             search_amount3 +=1
             castle_diamond +=1
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         else:
             print("why search anymore?")
-            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+            return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     else:
-        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room
+        return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
         
             
 action4 = ""
@@ -632,7 +647,7 @@ while True:
     elif current_room == 2:
         action2, current_room, search_2, coin_amount, castle_diamond = room2(action2, current_room, search_2, coin_amount, castle_diamond)
     elif current_room == 3:
-        action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room = room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room)
+        action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand = room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand)
     elif current_room == 4:
         player, enemy, enemy_killed, action4, current_room, coin_amount, turn, turn2, enemy_attack, sword = room4(player, enemy, enemy_killed, action4, current_room, coin_amount, turn, turn2, enemy_attack, sword)
     elif current_room == 5:

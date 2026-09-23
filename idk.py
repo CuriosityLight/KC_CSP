@@ -13,23 +13,23 @@ def funny(choice_player, choice, coins, bet_amount):
     print("rolling...")
     if choice == "0 green":
         print("0 green")
-        if choice_player == "0":
-            coins = coins + bet_amount
+        if choice_player == "0" or "green":
+            coins += bet_amount
             print("you won")
             return choice_player, choice, coins, bet_amount
         else:
             print("you lost")
-            coins = coins / 2
+            coins /= 2
             return choice_player, choice, coins, bet_amount
     elif choice == "1 black":
         if choice_player == "1":
-            coins * 4
+            coins *= 4
             return
         elif choice_player == "black":
-            coins * 2
+            coins *= 2
             return
         else:
-            coins / 2
+            coins /= 2
 
 
 while True:
