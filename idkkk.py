@@ -1,6 +1,6 @@
 # keegan carter, text based adventure game
 import random
-
+from random import SystemRandom
 
 
 ######################## step 1: variables #######################
@@ -275,7 +275,7 @@ manuel_read = 0
 gamba_again = ""
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled):
-        gamba = random.choice(["gain", "little gain", "nothing", "little lose", "lose", "coin", "double", "all", "double"])
+        gamba = random.choice(["gain", "little gain", "nothing", "gain", "little gain", "little lose", "lose", "coin", "double", "all", "double"])
         if gamba == "gain":
             player["hp"] += 10
             print("you gambled and gain a lot of hp, you now have ", player["hp"], " hp.")

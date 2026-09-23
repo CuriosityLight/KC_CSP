@@ -1,1 +1,2 @@
-t
+
+if symbol == False:
