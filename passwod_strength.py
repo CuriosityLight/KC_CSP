@@ -23,6 +23,11 @@ for letter in password:
         number = True
     if letter in "~!@#$%^&*()_+`-=|[];':<>?,./":
         symbol = True
+print("at least 8 letters:" + length)
+print("has an uppercase letter:" + upper)
+print("has a lowercase letter:" + lower)
+print("has a number:" + number)
+print("has a symbol:" + symbol)
 
 
 if length == False:
@@ -40,8 +45,6 @@ if number == False:
 if symbol == False:
     print("you need at least 1 symbol")
     strength -= 1
-if length and upper and lower and number and symbol == True:
-    print("your password is accepted")
 
 if strength == 1:
     print("your password is weak")
