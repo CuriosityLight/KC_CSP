@@ -276,7 +276,7 @@ gamba_again = ""
 gamba_rand = SystemRandom()
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand):
-        gamba = gamba_rand.randint(1, 11)
+        gamba = gamba_rand.randint(1, 12)
 #        gamba = random.choice(["gain", "little gain", "nothing", "gain", "little gain", "little lose", "lose", "coin", "double", "all", "double"])
         if gamba == 1:
             player["hp"] += 10
@@ -303,17 +303,21 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
                 print("you gambled and got nothing, you wouldve gotten a coin but you already got it")
         elif gamba == 8:
             player["hp"] += player["hp"]
-            print("you gambled and doubled you hp! you now have", player["hp"], "hp left")
+            print("you gambled and doubled you hp! you now have", player["hp"], "hp.")
         elif gamba == 9:
             player["hp"] *= 3
-            print("you gambled and tripled your hp! you now have", player["hp"], "hp left")
+            print("you gambled and tripled your hp! you now have", player["hp"], "hp.")
         elif gamba == 10:
             player["hp"] *= 4
-            print("you gambled and QUADRUPLED your hp! you now have", player["hp"], "hp left")
+            print("you gambled and QUADRUPLED your hp! you now have", player["hp"], "hp.")
         elif gamba == 11:
             player["hp"] /= 2
-            round(player["hp"])
-            print("you gambled and sadly halved you hp... you now have ", player["hp"], "hp left.")
+            player["hp"] = round(player["hp"])
+            print("you gambled and sadly halved your hp... you now have ", player["hp"], "hp.")
+        elif gamba == 12:
+            player["hp"] /= 3
+            player["hp"] = round(player["hp"])
+            print("you gambled and sadly third your hp... you now have", player["hp"], "hp.")
         else:
             print("huh")
         if player["hp"] <= 0:
@@ -350,7 +354,7 @@ castle_diamond = 0
 # IF YOU SEARCH FOR THE FOURTH TIIIMMEEE, you get castle's diamond might uss for a quest that rewards you with nothing.
 def room3(action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand):
     egg_room += 1
-    if egg_room == 12:
+    if egg_room == 66:
         current_room += 6
         return action3, manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, egg_room, gamba_rand
     print("this room is very dark, only with one lightbulb lighting a single slot machine, it has a manuel on it")
@@ -457,7 +461,12 @@ coinfound5 = 0
 def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
     if weapon_grabbed == "":
         print("theres many weapons that you can grab in this room, but grabbing one could cause the next room to be bad")
-        weapon_grabbed = input("the weapons you could grab is subspace tripmine, or the gifted viscious bee. (subspace, or gifted)")
+        while True:
+            weapon_grabbed = input("the weapons you could grab is subspace tripmine, or the gifted viscious bee. (subspace, or gifted, or none)")
+            if weapon_grabbed == "subspace" or "gifted" or "none":
+                break
+            else:
+                print("subspace, gifted, or none")
     elif weapon_grabbed != "":
         print("you have already picked up an item, youre cooked")
     action5 = input("would you like to go back to room 4 or foward to room 6 or search? (4, 6 or search)")
@@ -480,6 +489,8 @@ def room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount):
     elif action5 == "glass door":
                 current_room += 3
                 return weapon_grabbed, coinfound5, current_room, action5, coin_amount
+    else:
+        return weapon_grabbed, coinfound5, current_room, action5, coin_amount
 search_6 = 0
 search6 = 0
 action6 = ""

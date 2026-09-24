@@ -1,2 +1,0 @@
-
-if symbol == False:
