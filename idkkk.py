@@ -276,7 +276,7 @@ gamba_again = ""
 gamba_rand = SystemRandom()
 
 def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_diamond, current_room, gamba_again, coin_gambled, gamba_rand):
-        gamba = gamba_rand.randint(1, 10)
+        gamba = gamba_rand.randint(1, 11)
 #        gamba = random.choice(["gain", "little gain", "nothing", "gain", "little gain", "little lose", "lose", "coin", "double", "all", "double"])
         if gamba == 1:
             player["hp"] += 10
@@ -313,7 +313,7 @@ def gambling(manuel_read, coin_amount, gamba, player, search_amount3, castle_dia
         elif gamba == 11:
             player["hp"] /= 2
             round(player["hp"])
-            print("you gambled and sadly halved you hp")
+            print("you gambled and sadly halved you hp... you now have ", player["hp"], "hp left.")
         else:
             print("huh")
         if player["hp"] <= 0:
