@@ -141,54 +141,99 @@ def combat(player, enemy, turn, turn2, enemy_attack, sword):
                 break
     return player, enemy, turn, turn2, enemy_attack, sword
 
-
+boss_attack = ""
+turn_boss = ""
+turn2_boss = ""
 
 def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
     while True:
         boss_attack = random.choice(["light", "heavy", "defend"])
         print("you have ", player["hp"], " hp")
         print("the enemy has ", boss["hp"], " hp")
-        turn_boss = input("would you like to attack, defend, use item, (attack, defend, item) ")
-        if turn_boss == "attack":
-            turn2_boss = input("would you like to light attack, heavy attack, attack with item or attack secondary. (light, heavy or item) ")
-            if turn2_boss == "light":
+        if sword == 0:
+            turn_boss = input("would you like to attack, defend, use item, (attack, defend, item) ")
+            if turn_boss == "attack":
+                turn2_boss = input("would you like to light attack, heavy attack, attack with item or attack secondary. (light, heavy or item) ")
+                if turn2_boss == "light":
+                    if boss_attack == "light":
+                        print("you hit with a light attack and so does the enemy. nothing happens")
+                    elif boss_attack == "heavy":
+                        boss["hp"] -= player["L_attack"]
+                        print("your enemy tried to hit you with a heavy attack but you quickly hit them with a light attack.")
+                    elif boss_attack == "defend":
+                        boss["hp"] += 10
+                        print("the enemy defended and gained more hp")
+                elif turn2_boss == "heavy":
+                    if boss_attack == "light":
+                        player["hp"] -= boss["L_attack"]
+                        print("as you try to attack the enemy with a heavy attack, they quickly attack you with a light attck. you take damage...")
+                    elif boss_attack == "heavy":
+                        print("the enemy did a heavy attack, you did as well. nothing happened")
+                    elif boss_attack == "defend":
+                        boss["hp"] -= player["H_attack"]
+                        print("they defended and you hit them with a heavy attack! you damaged them.")
+                if turn2_boss == "item":
+                    print(player["inventory"])
+            elif turn_boss == "defend":
                 if boss_attack == "light":
-                    print("you hit with a light attack and so does the enemy. nothing happens")
+                    print("as you defended, they try to hit you with a light attack!, you healed.")
+                    player["hp"] += 2
                 elif boss_attack == "heavy":
-                    boss["hp"] -= player["L_attack"]
-                    print("your enemy tried to hit you with a heavy attack but you quickly hit them with a light attack.")
+                    print("as you defended, they hit you with a heavy attack... you take damage,")
+                    player["hp"] -= boss["H_attack"]
                 elif boss_attack == "defend":
-                    boss["hp"] += 10
-                    print("the enemy defended and gained more hp")
-            elif turn2_boss == "heavy":
-                if boss_attack == "light":
-                    player["hp"] -= boss["L_attack"]
-                    print("as you try to attack the enemy with a heavy attack, they quickly attack you with a light attck. you take damage...")
-                elif boss_attack == "heavy":
-                    print("the enemy did a heavy attack, you did as well. nothing happened")
-                elif boss_attack == "defend":
-                    boss["hp"] -= player["H_attack"]
-                    print("they defended and you hit them with a heavy attack! you damaged them.")
-            if turn2_boss == "item":
-                print(player["inventory"])
-        elif turn_boss == "defend":
-            if boss_attack == "light":
-                print("as you defended, they try to hit you with a light attack!, you healed.")
-                player["hp"] += 2
-            elif boss_attack == "heavy":
-                print("as you defended, they hit you with a heavy attack... you take damage,")
-                player["hp"] -= boss["H_attack"]
-            elif boss_attack == "defend":
-                print("as you defended, they did too. nothing happend")          
+                    print("as you defended, they did too. nothing happend")          
+            else:
+                print("please select one of the moves")
+            #check to see if died, break out of the loop
+            if player["hp"] <= 0:
+                print("you died to the enemy. try again loser")
+                break
+            if boss["hp"] <= 0: 
+                print("you have killed the enemy!")
+                break
         else:
-            print("please select one of the moves")
-         #check to see if died, break out of the loop
-        if player["hp"] <= 0:
-            print("you died to the enemy. try again loser")
-            break
-        if boss["hp"] <= 0: 
-            print("you have killed the enemy!")
-            break
+            turn_boss = input("kill the final boss (attack, defend, item) ")
+            if turn_boss == "attack":
+                turn2_boss = input("light, heavy you choose. (light, heavy or item) ")
+                if turn2_boss == "light":
+                    if boss_attack == "light":
+                        print("they tried to copy....")
+                    elif boss_attack == "heavy":
+                        boss["hp"] -= player["L_attack"]
+                        print("you swiftly killed")
+                    elif boss_attack == "defend":
+                        boss["hp"] += 10
+                        print("the enemy defended and gained more hp")
+                elif turn2_boss == "heavy":
+                    if boss_attack == "light":
+                        player["hp"] -= boss["L_attack"]
+                        print("as you try to attack the enemy with a heavy attack, they quickly attack you with a light attck. you take damage...")
+                    elif boss_attack == "heavy":
+                        print("the enemy did a heavy attack, you did as well. nothing happened")
+                    elif boss_attack == "defend":
+                        boss["hp"] -= player["H_attack"]
+                        print("they defended and you hit them with a heavy attack! you damaged them.")
+                if turn2_boss == "item":
+                    print(player["inventory"])
+            elif turn_boss == "defend":
+                if boss_attack == "light":
+                    print("as you defended, they try to hit you with a light attack!, you healed.")
+                    player["hp"] += 2
+                elif boss_attack == "heavy":
+                    print("as you defended, they hit you with a heavy attack... you take damage,")
+                    player["hp"] -= boss["H_attack"]
+                elif boss_attack == "defend":
+                    print("as you defended, they did too. nothing happend")          
+            else:
+                print("heavy or light, or defend. it doesnt matter")
+            #check to see if died, break out of the loop
+            if player["hp"] <= 0:
+                print("HOW")
+                break
+            if boss["hp"] <= 0: 
+                print("determination")
+                break
     return player, boss
 
 # in combat, the user can either attack (it has its sub categories), defend, use item,
@@ -230,6 +275,9 @@ def room(action, room1_coin, coin_amount, current_room):
         elif room1_coin == 1:
             print("you already searched, you found nothing.")
             return action, room1_coin, coin_amount, current_room
+    elif action == "testing":
+        current_room -= 2
+        return action, room1_coin, coin_amount, current_room
     else:
         return action, room1_coin, coin_amount, current_room
 
@@ -618,6 +666,24 @@ def eggroom(egg_room, current_room):
         return egg_room, current_room
 
 
+    
+fight = ""
+def fightingroom(fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room):
+    print("this is used for tesiting")
+    fight = input("fight an enemy, boss or leave?")
+    if fight == "enemy":
+        combat(player, enemy, turn, turn2, enemy_attack, sword)
+        return fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room
+    elif fight == "boss":
+        combat_boss(player, boss, boss_attack, turn_boss, turn2_boss)
+        return fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room
+    elif fight == "leave":
+        current_room += 2
+        return fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room
+    else:
+        print("we fr?")
+        
+
 
 # room 7 (the exit)
     # when you have went to every room and grabbed the coin from each, you win. if not then the room will stay locked untill then.
@@ -671,3 +737,5 @@ while True:
         current_room, player, castle_diamond, sword = roomCastle(current_room, player, castle_diamond, sword)
     elif current_room == 9:
         egg_room, current_room = eggroom(egg_room, current_room)
+    elif current_room == -1:
+        fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room = fightingroom(fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room)
