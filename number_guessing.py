@@ -3,6 +3,7 @@ import random
 tries = 0
 number = random.randint(1,100)
 guess = ""
+print("im thinking of a number between 1 and 100, guess it")
 while True:
     if tries >= 6:
         print("out of guesses, the number was", number)
