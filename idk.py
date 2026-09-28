@@ -1,7 +1,7 @@
 import random
 from random import SystemRandom
-ball_choice = ["0 green", "1 black"]
-coins = 10
+ball_choice = ["0 green", "1 black", "17 black"]
+coins = 50
 choice_player = ""
 choice = ""
 bet_amount = 0
@@ -10,6 +10,9 @@ fun_again = ""
 def funny(choice_player, choice, coins, bet_amount, fun_again):
     while True:
         while True:
+            if coins <= 0:
+                print("well you gambled all your money and died")
+                return choice_player, choice, coins, bet_amount, fun_again
             print("you have", coins, "coins")
             fun_again = input("bet again? ") .lower()
             while True:
@@ -40,6 +43,16 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
             elif choice_player == "black":
                 coins += bet_amount
             else:
+                coins -= bet_amount
+        elif choice == "17 black":
+            print("17 black")
+            print("let it ride")
+            if choice_player == "17":
+                coins += bet_amount
+            elif choice_player == "black":
+                coins += bet_amount
+            else:
+                print("you lose")
                 coins -= bet_amount
 funny(choice_player, choice, coins, bet_amount, fun_again)
 
