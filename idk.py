@@ -1,6 +1,6 @@
 import random
 from random import SystemRandom
-ball_choice = ["0 green", "1 black", "17 black"]
+ball_choice = [0, 1, 2, 3, 17]
 coins = 50
 choice_player = ""
 choice = ""
@@ -29,7 +29,22 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
         choice_player = str(input("place a bet on black, red, green or a specific number. ")) .lower()
         choice = rand.choice(ball_choice)
         print("rolling...")
-        if choice == "0 green":
+        if choice_player == "odd" or "even":
+            if choice % 2 == 0:
+                if choice_player == "even":
+                    print(choice)
+                    coins += bet_amount
+                elif choice_player == "odd":
+                    coins -= bet_amount
+                    print(choice)
+            else:
+                if choice_player == "odd":
+                    coins += bet_amount
+                    print(choice)
+                elif choice_player == "even":
+                    coins -= bet_amount
+                    print(choice)
+        elif choice == 0:
             print("0 green")
             if choice_player == "0" or "green":
                 coins += (bet_amount * 10)
@@ -37,14 +52,20 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
             else:
                 print("you lost")
                 coins -= bet_amount
-        elif choice == "1 black":
+        elif choice == 1:
             if choice_player == "1":
-                coins += bet_amount
-            elif choice_player == "black":
+                coins += (bet_amount * 2)
+            elif choice_player == "red":
                 coins += bet_amount
             else:
                 coins -= bet_amount
-        elif choice == "17 black":
+        elif choice == 2:
+            print("2 black")
+            if choice_player == "2":
+                coins += (bet_amount *  2)
+            elif choice_player == "black":
+                coins += bet_amount
+        elif choice == 17:
             print("17 black")
             print("let it ride")
             if choice_player == "17":
