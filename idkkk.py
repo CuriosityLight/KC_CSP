@@ -183,6 +183,9 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                     player["hp"] -= boss["H_attack"]
                 elif boss_attack == "defend":
                     print("as you defended, they did too. nothing happend")          
+            elif turn2_boss == "kill thy enemy":
+                enemy["hp"] -= 3287432702309
+                print("...wow")
             else:
                 print("please select one of the moves")
             #check to see if died, break out of the loop
@@ -193,7 +196,7 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                 print("you have killed the enemy!")
                 break
         else:
-            turn_boss = input("kill the final boss (attack, defend, item) ")
+            turn_boss = input("kill the boss (attack, defend, item) ")
             if turn_boss == "attack":
                 turn2_boss = input("light, heavy you choose. (light, heavy or item) ")
                 if turn2_boss == "light":
@@ -224,7 +227,11 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                     print("as you defended, they hit you with a heavy attack... you take damage,")
                     player["hp"] -= boss["H_attack"]
                 elif boss_attack == "defend":
-                    print("as you defended, they did too. nothing happend")          
+                    print("as you defended, they did too. nothing happend")        
+            elif turn2_boss == "kill thy enemy":
+                enemy["hp"] += 3287432702309
+                print("YOU IDIOT")
+                print("the kid came back and healed the boss, all because you did this")
             else:
                 print("heavy or light, or defend. it doesnt matter")
             #check to see if died, break out of the loop
