@@ -10,7 +10,7 @@ while count <= 10:
 
 
 ducks = 1
-goose = random.randint(1, 10000)
+goose = random.randint(1, 10)
 
 while True:
     if ducks == goose:
