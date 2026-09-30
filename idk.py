@@ -4,13 +4,15 @@ ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 # Red: 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
 # black: 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 31, 33, 35
 # green: 0,
+
 coins = 50
 choice_player = ""
 choice = ""
 bet_amount = 0
 rand = SystemRandom()
 fun_again = ""
-def funny(choice_player, choice, coins, bet_amount, fun_again):
+
+def roulette(choice_player, choice, coins, bet_amount, fun_again):
     while True:
         while True:
             if coins <= 0:
@@ -62,7 +64,7 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
                 print("1 red")
                 if choice_player == "1":
                     print("you win")
-                    coins += (bet_amount * 2)
+                    coins += (bet_amount * 35)
                 elif choice_player == "red":
                     coins += bet_amount
                     print("you win")
@@ -72,14 +74,21 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
             elif choice == 2:
                 print("2 black")
                 if choice_player == "2":
-                    coins += (bet_amount *  2)
+                    coins += (bet_amount *  35)
                 elif choice_player == "black":
                     coins += bet_amount
             elif choice == 3:
                 print("3 red")
                 if choice_player == "3":
                     print("you won")
+                    coins += (bet_amount*35)
+                elif choice_player == "red":
+                    print("you won")
                     coins += bet_amount
+                else:
+                    print("you lost")
+            
+
             elif choice == 17:
                 print("17 black")
                 print("let it ride")
@@ -90,7 +99,10 @@ def funny(choice_player, choice, coins, bet_amount, fun_again):
                 else:
                     print("you lose")
                     coins -= bet_amount
-funny(choice_player, choice, coins, bet_amount, fun_again)
+while True:
+    game = input("what game would you like to player (roulette)")
+    if game == "roulette":
+        roulette(choice_player, choice, coins, bet_amount, fun_again)
 
 
 
