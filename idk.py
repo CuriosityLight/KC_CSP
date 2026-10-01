@@ -95,10 +95,71 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                     print("you lost")
                     coins -= bet_amount
 
+slot_choices = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+slot1 = ""
+slot2 = ""
+slot3 = ""
+slot4 = ""
+slot5 = ""
+slot6 = ""
+slot7 = ""
+slot8 = ""
+slot9 = ""
+coins = 50
+
+def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount):
+    while True:
+        slot1 = rand.choice(slot_choices)
+        slot2 = rand.choice(slot_choices)
+        slot3 = rand.choice(slot_choices)
+        slot4 = rand.choice(slot_choices)
+        slot5 = rand.choice(slot_choices)
+        slot6 = rand.choice(slot_choices)
+        slot7 = rand.choice(slot_choices)
+        slot8 = rand.choice(slot_choices)
+        slot9 = rand.choice(slot_choices)
+        print(f"""
+        
+            {slot1}    {slot2}    {slot3}
+            {slot4}    {slot5}    {slot6}
+            {slot7}    {slot8}    {slot9}
+
+        """)
+        if slot4 == slot5 and slot5 == slot6:
+            print("you win!")
+            bet_amount *= 100
+            
+        else:
+            print("you lost")
+            bet_amount *= 0.5
+            bet_amount = int(round(bet_amount))
+        print(bet_amount, "coins is in the machine")
+        while True:
+            fun_again = input("would you like to let it ride: ")
+            if fun_again == "yes":
+                slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount)
+            elif fun_again == "no":
+                coins += bet_amount
+                return
+            else:
+                print("yes or no")
+            
+
+
 while True:
     game = input("what game would you like to player (roulette)")
     if game == "roulette":
         roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green)
+    elif game == "slots":
+        while True:
+            try:
+                bet_amount = int(input("how much would you like to bet: "))
+                if bet_amount > coins:
+                    print("you dont have enough money to do that")
+                break
+            except:
+                print("number please")
+        slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount)
 
 
 
