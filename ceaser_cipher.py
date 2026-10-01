@@ -2,8 +2,9 @@
 encrypt_decrypt = ""
 amount_shift = 0
 message = ""
+wrap = 0
 shifted_messages = []
-def ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages,):
+def ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages, wrap):
     encrypt_decrypt = input("would you like to encrypt or decrypt? ") .lower() .strip()
     if encrypt_decrypt == "encrypt":
         amount_shift = int(input("amount of shift: "))
@@ -25,9 +26,9 @@ def ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages,):
             else:
                 shifted_messages.append(letter)
         print(str(shifted_messages).replace("['", "").replace("', '", "").replace("']", ""))
-        return
+        return encrypt_decrypt, amount_shift, message, shifted_messages, wrap
     elif encrypt_decrypt == "decrypt":
-        amount_shift = int(input("amount of shift:"))
+        amount_shift = int(input("amount of shift: "))
         amount_shift *= -1
         message = str(input("message to decrypt: "))
         for letter in message:
@@ -47,13 +48,14 @@ def ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages,):
             else:
                 shifted_messages.append(letter)
         print(str(shifted_messages).replace("['", "").replace("', '", "").replace("']", ""))
-        return
+        return encrypt_decrypt, amount_shift, message, shifted_messages, wrap
     else:
         print("encrypt or decrypt")
 ask = ""
 while True:
+    shifted_messages = []
     ask = input("would you like to use the ceasar cipher (yes or no): ") .lower() .strip()
     if ask == "yes":
-        ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages,)
+        ceaser_cipher(encrypt_decrypt, amount_shift, message, shifted_messages, wrap)
     elif ask == "no":
         break
