@@ -1,5 +1,11 @@
 import random
 from random import SystemRandom
+import time
+
+
+
+
+
 ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
 # Red: 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
 # black: 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 31, 33, 35
@@ -107,7 +113,7 @@ slot8 = ""
 slot9 = ""
 coins = 50
 
-def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount):
+def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again):
     while True:
         slot1 = rand.choice(slot_choices)
         slot2 = rand.choice(slot_choices)
@@ -119,16 +125,20 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
         slot8 = rand.choice(slot_choices)
         slot9 = rand.choice(slot_choices)
         print(f"""
-        
-            {slot1}    {slot2}    {slot3}
-            {slot4}    {slot5}    {slot6}
-            {slot7}    {slot8}    {slot9}
+         ___________________
+        |                   |
+        |    {slot1}    {slot2}    {slot3}    |
+        |  \x1b[3m\033[1m  {slot4}    {slot5}    {slot6}\x1b[0m\033[0m    |
+        |    {slot7}    {slot8}    {slot9}    |
+        |___________________|
 
         """)
         if slot4 == slot5 and slot5 == slot6:
-            print("you win!")
+            print("you win the jackpot!")
             bet_amount *= 100
-            
+        elif slot4 == slot5 or slot4 == slot6 or slot5 == slot6:
+            print("you win!")
+            bet_amount *= 10
         else:
             print("you lost")
             bet_amount *= 0.5
@@ -137,29 +147,49 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
         while True:
             fun_again = input("would you like to let it ride: ")
             if fun_again == "yes":
-                slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount)
+                slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
             elif fun_again == "no":
                 coins += bet_amount
-                return
+                return slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again
             else:
                 print("yes or no")
             
 
 
+def plinko():
+    fun_again = input("drop a ball: ")
+    if fun_again == "yes":
+        print("unfinished")
+
+
+
+
+
+
+
+
+
+
 while True:
-    game = input("what game would you like to player (roulette)")
+    print("you have ", coins, "coins")
+    game = input("what game would you like to player (roulette, or slots or plinko)")
     if game == "roulette":
         roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green)
     elif game == "slots":
         while True:
             try:
-                bet_amount = int(input("how much would you like to bet: "))
-                if bet_amount > coins:
-                    print("you dont have enough money to do that")
+                while True:
+                    bet_amount = int(input("how much would you like to bet: "))
+                    if bet_amount > coins:
+                        print("you dont have enough money to do that")
+                    else:
+                        break
                 break
             except:
                 print("number please")
-        slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount)
+        slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
+
+
 
 
 
