@@ -101,7 +101,7 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                     print("you lost")
                     coins -= bet_amount
 
-slot_choices = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+slot_choices = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "B"]
 slot1 = ""
 slot2 = ""
 slot3 = ""
@@ -134,8 +134,12 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
 
         """)
         if slot4 == slot5 and slot5 == slot6:
-            print("you win the jackpot!")
-            bet_amount *= 100
+            if slot4 == "B":
+                print("YOU LOST")
+                bet_amount = 0
+            else:
+                print("you win the jackpot!")
+                bet_amount *= 100
         elif slot4 == slot5 or slot4 == slot6 or slot5 == slot6:
             print("you win!")
             bet_amount *= 10
