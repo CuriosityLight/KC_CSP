@@ -158,12 +158,26 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
             else:
                 print("yes or no")
             
+chance = ""
+plink1 = """    o
+                .
+              .   .
+            .   .   .
+          .   .   .   .
+        .   .   .   .   .
+      .   .   .   .   .   .
+    .   .   .   .   .   .   .
+ |_| |_| |_| |_| |_| |_| |_| |_|"""
 
 
-def plinko():
+
+
+
+def plinko(fun_again):
     fun_again = input("drop a ball: ")
     if fun_again == "yes":
-        print("unfinished")
+        print(plink1)
+    chance = rand.int(1, 2)
 
 
 
