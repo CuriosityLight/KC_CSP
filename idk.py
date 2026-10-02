@@ -162,7 +162,7 @@ player_cards = []
 dealer_cards = []
 cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-def jack():
+def jack(bet_amount, player_cards, cards,):
     bet_amount = input("how much would you like to bet")
     player_cards.append(rand.choice(cards))
     print(player_cards)
