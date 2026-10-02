@@ -157,31 +157,15 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
                 return slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again
             else:
                 print("yes or no")
-            
-chance = ""
-plink1 = """    o
-                .
-              .   .
-            .   .   .
-          .   .   .   .
-        .   .   .   .   .
-      .   .   .   .   .   .
-    .   .   .   .   .   .   .
- |_| |_| |_| |_| |_| |_| |_| |_|"""
 
+player_cards = []
+dealer_cards = []
+cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-
-
-
-def plinko(fun_again):
-    fun_again = input("drop a ball: ")
-    if fun_again == "yes":
-        print(plink1)
-    chance = rand.int(1, 2)
-
-
-
-
+def jack():
+    bet_amount = input("how much would you like to bet")
+    player_cards.append(rand.choice(cards))
+    print(player_cards)
 
 
 
@@ -190,7 +174,7 @@ def plinko(fun_again):
 
 while True:
     print("you have ", coins, "coins")
-    game = input("what game would you like to player (roulette, or slots or plinko)")
+    game = input("what game would you like to player (roulette, or slots or black jack )")
     if game == "roulette":
         roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green)
     elif game == "slots":
@@ -206,8 +190,8 @@ while True:
             except:
                 print("number please")
         slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
-
-
+    elif game == "black jack":
+        jack()
 
 
 
