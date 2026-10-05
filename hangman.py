@@ -7,8 +7,6 @@ text = ""
 words = []
 word = ""
 guess = ""
-win = 0
-lost = 0
 display = ""
 text1 =  ""
 stat = []
@@ -25,14 +23,6 @@ def display_word(word, guess_letters):
     return display
 
 def hangman(word, Wguesses, guess):
-    with open("words.txt", "r") as file:
-        text = file.read()
-    words = (text.split())
-    with open("stats.txt", "r") as file:
-        text = file.read()
-    stat = (text.split())
-    win = int(stat[0])
-    lost = int(stat[1])
     print("won:", win)
     print("lost:", lost)
     word = random.choice(words)
@@ -132,13 +122,20 @@ def hangman(word, Wguesses, guess):
         if display_word(word, guess_letters) == word:
             print("you won!")
             win += 1
-            return word, guess_letters, win, lost, 
+        with open("stat.txt", "w") as file3
 again = ""
 
 while True:
-    text = [win, lost]
-    with open("stats.txt", "w") as file:
-        file.write(text)
+    with open("words.txt", "r") as file:
+        text = file.read()
+    words = (text.split())
+    with open("stats.txt", "r") as file1:
+        statistic = file.read()
+    stat = (statistic.split())
+    win = int(stat[0])
+    lost = int(stat[1])
+    with open("stats.txt", "w") as file2:
+        file.write(stat)
     again = input("do you want to play again? ")
     if again == "yes":
         hangman(word, Wguesses, guess)
