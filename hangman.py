@@ -10,6 +10,20 @@ guess = ""
 display = ""
 text1 =  ""
 stat = []
+win = 0
+lost = 0
+w_l = ""
+
+def stats_update(win, lost):
+    win = str(win)
+    lost = str(lost)
+    with open("stats.txt", "w") as file2:
+        file2.write(win)
+    with open("stats.txt", "a") as file2:
+        file2.write(",")
+        file2.write(lost)
+    return win, lost
+
 
 
 
@@ -20,9 +34,16 @@ def display_word(word, guess_letters):
             display += letter
         else:
             display += "_ "
+    print(display)
     return display
 
-def hangman(word, Wguesses, guess):
+def hangman(word, Wguesses, guess, stat, win, lost):
+
+    with open("stats.txt", "r") as file1:
+        statistic = file1.read()
+    stat = (statistic.split(","))
+    win = int(stat[0])
+    lost = int(stat[1])
     print("won:", win)
     print("lost:", lost)
     word = random.choice(words)
@@ -106,39 +127,44 @@ def hangman(word, Wguesses, guess):
 """)
             print("you were out of guesses, the word was,", word)
             lost += 1
-            return
-        print(display_word(word, guess_letters))
-
-        guess = input("guess a letter. ")
-        if guess in guess_letters:
-            print("you already guessed that")
-        else:
-            guess_letters.append(guess)
-            if guess not in word:
-                Wguesses += 1
-            else:
-                print(guess, "was in the word")
-
+            stats_update(win, lost)
+            return word, Wguesses, guess, stat, win
         if display_word(word, guess_letters) == word:
             print("you won!")
             win += 1
-        with open("stat.txt", "w") as file3
-again = ""
+            stats_update(win, lost)
+            return word, Wguesses, guess, stat, win
 
+        if guess_letters != []:
+            print("your guessed letters is:")
+            print(str(guess_letters).replace("[", " ").replace("]", "").replace("'", "").strip())
+        while True:
+            guess = input("guess a letter. ")
+            if guess in guess_letters:
+                print("you already guessed that")
+            else:
+                guess_letters.append(guess)
+                if guess not in word:
+                    Wguesses += 1
+                    break
+                else:
+                    print(guess, "was in the word")
+                    break
+
+again = ""
+again_again = 0
 while True:
+    guess_letters = []
     with open("words.txt", "r") as file:
         text = file.read()
     words = (text.split())
-    with open("stats.txt", "r") as file1:
-        statistic = file.read()
-    stat = (statistic.split())
-    win = int(stat[0])
-    lost = int(stat[1])
-    with open("stats.txt", "w") as file2:
-        file.write(stat)
-    again = input("do you want to play again? ")
+    if again_again >= 1:
+        again = input("do you want to play again? ")
+    else:
+        again = input("do you want to play hangman? ")
     if again == "yes":
-        hangman(word, Wguesses, guess)
+        again_again += 1
+        hangman(word, Wguesses, guess, stat, win, lost)
     elif again == "no":
         print("bye bye")
         break
