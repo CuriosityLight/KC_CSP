@@ -167,9 +167,10 @@ type_cards = ["spades", "hearts", "clovers", "diamonds"]
 move = ""
 total_player = 0
 total_dealer = 0
+cards_full = []
 #"Ace of Spades", "2 of Spades", "3 of Spades", "4 of Spades", "5 of Spades", "6 of Spades", "7 of Spades", "8 of Spades", "9 of Spades", "10 of Spades", "Jack of Spades", "Queen of Spades", "King of Spades", "Ace of Hearts", "2 of Hearts", "3 of Hearts", "4 of Hearts", "5 of Hearts", "6 of Hearts", "7 of Hearts", "8 of Hearts", "9 of Hearts", "10 of Hearts", "Jack of Hearts", "Queen of Hearts", "King of Hearts", "Ace of Diamonds", "2 of Diamonds", "3 of Diamonds", "4 of Diamonds", "5 of Diamonds", "6 of Diamonds", "7 of Diamonds", "8 of Diamonds", "9 of Diamonds", "10 of Diamonds", "Jack of Diamonds", "Queen of Diamonds", "King of Diamonds", "Ace of Clubs", "2 of Clubs", "3 of Clubs", "4 of Clubs", "5 of Clubs", "6 of Clubs", "7 of Clubs", "8 of Clubs", "9 of Clubs", "10 of Clubs", "Jack of Clubs", "Queen of Clubs", "King of Clubs"
 
-def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type):
+def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full):
     bet_amount = input("how much would you like to bet")
     print("disclaimer, aces = 1 not 1 and 11 sorry!")
     player_cards.append(rand.choice(cards))
@@ -184,6 +185,7 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
     print("the dealer shows they have ", dealer_cards[0], "of", dealer_type[0])
     while True:
         total_player = 0
+        total_dealer = 0
         for player_card in player_cards:
             try:
                 total_player += player_card
@@ -197,10 +199,10 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
             try:
                 total_dealer += dealer_cards
             except:
-                if player_card != "ace":
-                    total_player += 10
+                if dealer_card != "ace":
+                    total_dealer += 10
                 else:
-                    total_player + 1
+                    total_dealer + 1
         if total_player > 21:
             print("you lose!")
             coins -= bet_amount
@@ -215,7 +217,11 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
             print("you stay")
         elif move == "hit":
             print("you grab another card")
-
+            player_cards.append(rand.choice(cards))
+            player_type.append(rand.choice(type_cards))
+            print("your cards are: ")
+            cards_full = [f"{x} {y}" for x, y in zip(player_type, player_cards)]
+            print(cards_full)
 
 
 
@@ -238,7 +244,7 @@ while True:
                 print("number please")
         slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
     elif game == "black jack":
-        jack(bet_amount, player_cards, cards, move, dealer_cards)
+        jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full)
 
 
 
