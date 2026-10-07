@@ -163,15 +163,22 @@ dealer_cards = []
 player_type = []
 dealer_type = []
 cards = ["ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "king", "queen", "king"]
-type_cards = ["spades", "hearts", "clovers", "diamonds"]
+type_cards = ["of spades", "of hearts", "of clovers", "of diamonds"]
 move = ""
 total_player = 0
 total_dealer = 0
 cards_full = []
+new_card = ""
+new_type = ""
 #"Ace of Spades", "2 of Spades", "3 of Spades", "4 of Spades", "5 of Spades", "6 of Spades", "7 of Spades", "8 of Spades", "9 of Spades", "10 of Spades", "Jack of Spades", "Queen of Spades", "King of Spades", "Ace of Hearts", "2 of Hearts", "3 of Hearts", "4 of Hearts", "5 of Hearts", "6 of Hearts", "7 of Hearts", "8 of Hearts", "9 of Hearts", "10 of Hearts", "Jack of Hearts", "Queen of Hearts", "King of Hearts", "Ace of Diamonds", "2 of Diamonds", "3 of Diamonds", "4 of Diamonds", "5 of Diamonds", "6 of Diamonds", "7 of Diamonds", "8 of Diamonds", "9 of Diamonds", "10 of Diamonds", "Jack of Diamonds", "Queen of Diamonds", "King of Diamonds", "Ace of Clubs", "2 of Clubs", "3 of Clubs", "4 of Clubs", "5 of Clubs", "6 of Clubs", "7 of Clubs", "8 of Clubs", "9 of Clubs", "10 of Clubs", "Jack of Clubs", "Queen of Clubs", "King of Clubs"
 
-def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full):
-    bet_amount = input("how much would you like to bet")
+def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full, new_card, new_type):
+    while True:
+        try:
+            bet_amount = int(input("how much would you like to bet"))
+            break
+        except:
+            print("number please")
     print("disclaimer, aces = 1 not 1 and 11 sorry!")
     player_cards.append(rand.choice(cards))
     player_cards.append(rand.choice(cards))
@@ -206,21 +213,27 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
         if total_player > 21:
             print("you lose!")
             coins -= bet_amount
+            return
         elif total_player == 21:
             if total_dealer == 21:
                 print("there was a push!")
+                return
             else:
                 print("you win!")
                 coins += bet_amount
+                return
         move = input("would you like to stay or hit")
         if move == "stay":
             print("you stay")
         elif move == "hit":
             print("you grab another card")
-            player_cards.append(rand.choice(cards))
-            player_type.append(rand.choice(type_cards))
+            new_card = rand.choice(cards)
+            player_cards.append(new_card)
+            new_type = rand.choice(type_cards)
+            player_type.append(new_type)
+            print(f"your new card is {new_card, new_type}")
             print("your cards are: ")
-            cards_full = [f"{x} {y}" for x, y in zip(player_type, player_cards)]
+            cards_full = [f"{x} {y}" for x, y in zip(player_cards, player_type)]
             print(cards_full)
 
 
@@ -244,7 +257,7 @@ while True:
                 print("number please")
         slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
     elif game == "black jack":
-        jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full)
+        jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full, new_card, new_type)
 
 
 
