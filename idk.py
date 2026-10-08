@@ -231,9 +231,9 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
             player_cards.append(new_card)
             new_type = rand.choice(type_cards)
             player_type.append(new_type)
-            print(f"your new card is {new_card, new_type}")
+            print(f"your new card is {new_card, new_type}".replace(",", "").replace("(", "").replace(")", "").replace("'", ""))
             print("your cards are: ")
-            cards_full = [f"{x} {y}" for x, y in zip(player_cards, player_type)]
+            cards_full = [f"{x} {y}" for x, y in (zip(player_cards, player_type))]
             print(cards_full)
 
 
