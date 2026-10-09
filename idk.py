@@ -188,8 +188,9 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
     player_type.append(rand.choice(type_cards))
     dealer_type.append(rand.choice(type_cards))
     dealer_type.append(rand.choice(type_cards))
-    print("you have", player_cards[0], "of", player_type[0], "and", player_cards[1], "of", player_type[1])
     print("the dealer shows they have ", dealer_cards[0], "of", dealer_type[0])
+    time.sleep(1)
+    print("you have", player_cards[0], "of", player_type[0], "and", player_cards[1], "of", player_type[1])
     while True:
         total_player = 0
         total_dealer = 0
@@ -222,19 +223,34 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
                 print("you win!")
                 coins += bet_amount
                 return
+        time.sleep(1)
         move = input("would you like to stay or hit")
         if move == "stay":
             print("you stay")
+            while True:
+                print("the dealer has:")
+                cards_full = [f"{x} {y}" for x, y in (zip(dealer_cards, dealer_type))]
+                print (str(cards_full).replace("[", "").replace("'", "").replace("]", ""))
+                if total_dealer <= 15:
+                    new_card = rand.choice(cards)
+                    dealer_cards.append(new_card)
+                    new_type = rand.choice(type_cards)
+                    dealer_type.append(new_type)
+                    print(f"the dealers new card is {new_card, new_type}".replace(",", "").replace("(", "").replace(")", "").replace("'", ""))
+                elif total_dealer >= 15:
+                    print("the dealer stayed")
         elif move == "hit":
             print("you grab another card")
+            time.sleep(1)
             new_card = rand.choice(cards)
             player_cards.append(new_card)
             new_type = rand.choice(type_cards)
             player_type.append(new_type)
             print(f"your new card is {new_card, new_type}".replace(",", "").replace("(", "").replace(")", "").replace("'", ""))
+            time.sleep(1)
             print("your cards are: ")
             cards_full = [f"{x} {y}" for x, y in (zip(player_cards, player_type))]
-            print(cards_full)
+            print (str(cards_full).replace("[", "").replace("'", "").replace("]", ""))
 
 
 
