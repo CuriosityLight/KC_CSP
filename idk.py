@@ -6,13 +6,14 @@ import time
 
 
 
-ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
+ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, -5]
 # Red: 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
 # black: 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 31, 33, 35
 # green: 0,
 red = False
 black = False
 green = False
+blue = False
 coins = 50
 choice_player = ""
 choice = ""
@@ -20,12 +21,9 @@ bet_amount = 0
 rand = SystemRandom()
 fun_again = ""
 
-def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green):
+def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green, blue):
     while True:
         while True:
-            if coins <= 0:
-                print("well you gambled all your money and died")
-                return choice_player, choice, coins, bet_amount, fun_again
             print("you have", coins, "coins")
             fun_again = input("bet again? ") .lower()
             while True:
@@ -45,12 +43,15 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
         except:
             choice_player = str(choice_player)
         choice = rand.choice(ball_choice)
-        if choice == 1 or 3 or 5 or 7 or 9 or 12 or 14 or 16 or 18 or 19 or 21 or 23 or 25 or 27 or 30 or 32 or 34 or 36:
+        if choice == 1 or choice == 3 or choice == 5 or choice == 7 or choice == 9 or choice == 12 or choice == 14 or choice == 16 or choice == 18 or choice == 19 or choice == 21 or choice == 23 or choice == 25 or choice == 27 or choice == 30 or choice == 32 or choice == 34 or choice == 36 :
             red = True
-        elif choice == 2 or 4 or 6 or 8 or 10 or 11 or 13 or 15 or 17 or 20 or 22 or 24 or 26 or 28 or 31 or 33 or 35:
+        elif choice == 2 or choice == 4 or choice == 6 or choice == 8 or choice == 10 or choice == 11 or choice == 13 or choice == 15 or choice == 17 or choice == 20 or choice == 22 or choice == 24 or choice == 26 or choice == 28 or choice == 31 or choice == 33 or choice == 35:
             black = True
+        elif choice == -5:
+            blue = True
         else:
             green = True
+        print(red, black, green, blue)
         print("rolling...")
         if choice_player == "even":
             if choice %2 == 0:
@@ -100,6 +101,15 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                 else:
                     print("you lost")
                     coins -= bet_amount
+            elif blue == True:
+                if choice_player == "blue":
+                    print("you..won?")
+                    coins += bet_amount*100
+                elif choice_player == "-5":
+                    print("you..won?")
+                    coins += bet_amount*100
+                else:
+                    print("you lost???")
 
 slot_choices = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "B"]
 slot1 = ""
@@ -111,9 +121,9 @@ slot6 = ""
 slot7 = ""
 slot8 = ""
 slot9 = ""
-coins = 50
 
 def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again):
+    coins -= bet_amount
     while True:
         slot1 = rand.choice(slot_choices)
         slot2 = rand.choice(slot_choices)
@@ -141,6 +151,9 @@ def slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, 
                 print("you win the jackpot!")
                 bet_amount *= 100
         elif slot4 == slot5 or slot4 == slot6 or slot5 == slot6:
+            if slot4 == "B" or slot5 == "B":
+                print("YOU LOST:")
+                bet_amount = 0
             print("you win!")
             bet_amount *= 10
         else:
@@ -190,7 +203,7 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
     dealer_type.append(rand.choice(type_cards))
     print("the dealer shows they have ", dealer_cards[0], "of", dealer_type[0])
     time.sleep(1)
-    print("you have", player_cards[0], "of", player_type[0], "and", player_cards[1], "of", player_type[1])
+    print("you have", player_cards[0], player_type[0], "and", player_cards[1], player_type[1])
     while True:
         total_player = 0
         total_dealer = 0
@@ -198,47 +211,82 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
             try:
                 total_player += player_card
             except:
-                if player_card != "ace":
-                    total_player += 10
+                if player_card == "ace":
+                    total_player += 1
                 else:
-                    total_player + 1
-                total_player = 0
+                    total_player += 10
         for dealer_card in dealer_cards:
             try:
-                total_dealer += dealer_cards
+                total_dealer += dealer_card
             except:
                 if dealer_card != "ace":
                     total_dealer += 10
                 else:
                     total_dealer + 1
         if total_player > 21:
-            print("you lose!")
-            coins -= bet_amount
-            return
+            print("you went over!")
+            return coins - bet_amount
         elif total_player == 21:
             if total_dealer == 21:
                 print("there was a push!")
-                return
+                return coins
             else:
                 print("you win!")
-                coins += bet_amount
-                return
+                return coins + round(bet_amount*2.5)
+
         time.sleep(1)
-        move = input("would you like to stay or hit")
+        move = input("would you like to stay or hit: ")
         if move == "stay":
             print("you stay")
             while True:
+                time.sleep(1)
                 print("the dealer has:")
                 cards_full = [f"{x} {y}" for x, y in (zip(dealer_cards, dealer_type))]
                 print (str(cards_full).replace("[", "").replace("'", "").replace("]", ""))
-                if total_dealer <= 15:
+                total_dealer = 0
+                for dealer_card in dealer_cards:
+                    try:
+                        total_dealer += dealer_card
+                    except:
+                        if dealer_card != "ace":
+                            total_dealer += 10
+                        else:
+                            total_dealer + 1
+                time.sleep(1)
+                if total_dealer == 21:
+                    if total_player == 21:
+                        print("there was a push")
+                        return coins
+                    else:
+                        print("you lost")
+                        return coins - bet_amount
+                elif total_dealer <= 18:
                     new_card = rand.choice(cards)
                     dealer_cards.append(new_card)
                     new_type = rand.choice(type_cards)
                     dealer_type.append(new_type)
+                    time.sleep(2)
                     print(f"the dealers new card is {new_card, new_type}".replace(",", "").replace("(", "").replace(")", "").replace("'", ""))
-                elif total_dealer >= 15:
+                elif total_dealer > 18:
                     print("the dealer stayed")
+                    time.sleep(1)
+                    break
+            if total_dealer > 21:
+                print("dealer went over")
+                print("you win")
+                return coins + round(bet_amount*2.5)
+            if total_player > total_dealer:
+                print("you win!")
+                return coins + round(bet_amount*2.5)
+            elif total_player < total_dealer:
+                print("you lost")
+                return coins - bet_amount
+            else:
+                print("there was a push")
+                return coins
+
+                
+    
         elif move == "hit":
             print("you grab another card")
             time.sleep(1)
@@ -255,10 +303,12 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
 
 
 while True:
+    if coins <= 0:
+        print("well you gambled all your money and died")
     print("you have ", coins, "coins")
     game = input("what game would you like to player (roulette, or slots or black jack )")
     if game == "roulette":
-        roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green)
+        roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green, blue)
     elif game == "slots":
         while True:
             try:
@@ -273,7 +323,7 @@ while True:
                 print("number please")
         slots(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, coins, bet_amount, fun_again)
     elif game == "black jack":
-        jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full, new_card, new_type)
+        coins = jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, dealer_type, coins, total_dealer, total_player, cards_full, new_card, new_type)
 
 
 
