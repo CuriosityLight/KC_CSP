@@ -6,14 +6,17 @@ import time
 
 
 
-ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, -5]
+ball_choice = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
 # Red: 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
-# black: 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 31, 33, 35
+red_numbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+# black: 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35
+black_numbers = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 # green: 0,
+
+color = ""
 red = False
 black = False
 green = False
-blue = False
 coins = 50
 choice_player = ""
 choice = ""
@@ -21,7 +24,7 @@ bet_amount = 0
 rand = SystemRandom()
 fun_again = ""
 
-def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green, blue):
+def roulette(choice_player, choice, coins, bet_amount, fun_again, color, red_numbers, black_numbers):
     while True:
         while True:
             print("you have", coins, "coins")
@@ -42,16 +45,16 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
             choice_player = int(choice_player)
         except:
             choice_player = str(choice_player)
+        print("spinning")
         choice = rand.choice(ball_choice)
-        if choice == 1 or choice == 3 or choice == 5 or choice == 7 or choice == 9 or choice == 12 or choice == 14 or choice == 16 or choice == 18 or choice == 19 or choice == 21 or choice == 23 or choice == 25 or choice == 27 or choice == 30 or choice == 32 or choice == 34 or choice == 36 :
-            red = True
-        elif choice == 2 or choice == 4 or choice == 6 or choice == 8 or choice == 10 or choice == 11 or choice == 13 or choice == 15 or choice == 17 or choice == 20 or choice == 22 or choice == 24 or choice == 26 or choice == 28 or choice == 31 or choice == 33 or choice == 35:
-            black = True
-        elif choice == -5:
-            blue = True
+        time.sleep(1)
+        if choice in red_numbers:
+            color = "red"
+        elif choice in black_numbers:
+            color = "black"
         else:
-            green = True
-        print(red, black, green, blue)
+            color = "green"
+        print(color)
         print("rolling...")
         if choice_player == "even":
             if choice %2 == 0:
@@ -68,7 +71,7 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                 coins -= bet_amount
                 print(choice)
         else:
-            if black == True:
+            if color == "black":
                 print(choice, "black")
                 if choice_player == "black":
                     coins += bet_amount
@@ -79,7 +82,7 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                 else:
                     print("you lost")
                     coins -= bet_amount
-            elif red == True:
+            elif color == "red":
                 print(choice, "red")
                 if choice_player == "red":
                     coins += bet_amount
@@ -90,7 +93,7 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                 else:
                     print("you lost")
                     coins -= bet_amount
-            elif green == True:
+            elif color == "green":
                 print(choice, "green")
                 if choice_player == "green":
                     coins += bet_amount
@@ -101,15 +104,6 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, gr
                 else:
                     print("you lost")
                     coins -= bet_amount
-            elif blue == True:
-                if choice_player == "blue":
-                    print("you..won?")
-                    coins += bet_amount*100
-                elif choice_player == "-5":
-                    print("you..won?")
-                    coins += bet_amount*100
-                else:
-                    print("you lost???")
 
 slot_choices = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "B"]
 slot1 = ""
@@ -308,7 +302,7 @@ while True:
     print("you have ", coins, "coins")
     game = input("what game would you like to player (roulette, or slots or black jack )")
     if game == "roulette":
-        roulette(choice_player, choice, coins, bet_amount, fun_again, black, red, green, blue)
+        roulette(choice_player, choice, coins, bet_amount, fun_again, color, red_numbers, black_numbers)
     elif game == "slots":
         while True:
             try:
