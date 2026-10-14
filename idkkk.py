@@ -1,7 +1,7 @@
 # keegan carter, text based adventure game
 import random
 from random import SystemRandom
-
+import time
 
 ######################## step 1: variables #######################
 player = {   # <==== dictonary (key & value pair to give details about an item)
@@ -26,7 +26,12 @@ boss = {
     "defense": 5,
 
 }
-
+what = {
+    "hp": 87754987987543987,
+    "L_attack": 3462646437632,
+    "H_attack": 155436554321242355232,
+    "defense": 9704370980,
+}
 sword = 0
 while True:
     if player["hp"] > 0:
@@ -144,8 +149,9 @@ def combat(player, enemy, turn, turn2, enemy_attack, sword):
 boss_attack = ""
 turn_boss = ""
 turn2_boss = ""
-
-def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
+kill_boss = 0
+who_attack = ""
+def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss, sword):
     while True:
         boss_attack = random.choice(["light", "heavy", "defend"])
         print("you have ", player["hp"], " hp")
@@ -183,17 +189,17 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                     player["hp"] -= boss["H_attack"]
                 elif boss_attack == "defend":
                     print("as you defended, they did too. nothing happend")          
-            elif turn2_boss == "kill thy enemy":
-                enemy["hp"] -= 3287432702309
+            elif turn2_boss == "kill thy boss":
+                boss["hp"] -= 3287432702309
                 print("...wow")
             else:
                 print("please select one of the moves")
             #check to see if died, break out of the loop
             if player["hp"] <= 0:
-                print("you died to the enemy. try again loser")
+                print("you...died")
                 break
             if boss["hp"] <= 0: 
-                print("you have killed the enemy!")
+                print("you killed the boss!")
                 break
         else:
             turn_boss = input("kill the boss (attack, defend, item) ")
@@ -228,13 +234,25 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                     player["hp"] -= boss["H_attack"]
                 elif boss_attack == "defend":
                     print("as you defended, they did too. nothing happend")        
-            elif turn2_boss == "kill thy enemy":
-                enemy["hp"] += 3287432702309
-                print("YOU IDIOT")
-                print("the kid came back and healed the boss, all because you did this")
+            elif turn2_boss == "kill thy boss":
+                if kill_boss < 10:
+                    print("dont")
+                    kill_boss += 1
+                else:
+                    time.sleep(1)
+                    print("YOU IDIOT")
+                    time.sleep(1)
+                    print("YOU ACTUAL IDIOT")
+                    time.sleep(1)
+                    print("YOU HAD IT ALL")
+                    print("YOU COULDVE DONE ANYTHING ELSE")
+                    time.sleep(1)
+                    print("but you resign to THIS?")
+                    time.sleep(1)
+                    print("the kid comes back, but with someone new")
+                    combat_who(player, what, turn, turn2, who_attack)
             else:
                 print("heavy or light, or defend. it doesnt matter")
-            #check to see if died, break out of the loop
             if player["hp"] <= 0:
                 print("HOW")
                 break
@@ -243,6 +261,76 @@ def combat_boss(player, boss, boss_attack, turn_boss, turn2_boss):
                 break
     return player, boss
 
+
+
+
+
+
+
+
+
+def combat_who(player, what, turn, turn2, who_attack):
+    while True:
+        who_attack = random.choice(["light", "heavy", "defend", "defend", "death"])
+        print("you have ", player["hp"], " hp")
+        print("??? has ", what["hp"], " hp")
+        turn = input("attack, defend, or beg for mercy, (attack, defend, beg) ")
+        if turn == "attack":
+            turn2 = input("give up. (light, heavy, defend, beg)")
+            if turn2 == "light":
+                if who_attack == "light":
+                    print("you tried to hit...")
+                    player["hp"] -= what["L_attack"] 
+                elif who_attack == "heavy":
+                    player["hp"] -= what["H_attack"] 
+                    print("you tried to hit...")
+                elif who_attack == "defend":
+                    what["hp"] += 9873987
+                    print("it healed")
+                elif who_attack == "death":
+                    print("death...")
+                    player["hp"] = 0
+            elif turn2 == "heavy":
+                if who_attack == "light":
+                    what["hp"] -= player["L_attack"]
+                    print("slow...")
+                elif who_attack == "heavy":
+                    print("equalization")
+                elif who_attack == "defend":
+                    what["hp"] -= player["H_attack"]
+                    print("ow...")
+                elif who_attack == "death":
+                    print("death...")
+                    player["hp"] = 0
+        elif turn == "defend":
+            if who_attack == "light":
+                print("defense broke....")
+                player["hp"] -= 2478423043
+            elif who_attack == "heavy":
+                print("defense broke....")
+                player["hp"] -= 2478423043
+            elif who_attack == "defend":
+                print("double defense...")
+                player["hp"] += 20
+            elif who_attack == "death":
+                print("death...")
+                player["hp"] = 0
+        elif turn == "beg":
+            print("you begged for mercy")
+            player["hp"] = 0
+            print("none was received")
+        elif turn == "kill thy enemy":
+            enemy["hp"] += 327892387923*12
+            print("...")         
+        else:
+            print("stop stalling")
+        if player["hp"] <= 0:
+            print("Curiosity really does kill...")
+            break
+        if what["hp"] <= 0: 
+            print("...")
+            break
+    return
 # in combat, the user can either attack (it has its sub categories), defend, use item,
     # attack sub categories: light attack, heavy attack, attack with item.
         # light attack is where you usse the primary weapon you have but its fast but not strong.
@@ -655,7 +743,7 @@ def roomCastle(current_room, player, castle_diamond, sword):
         return current_room, player, castle_diamond, sword
 
 leave_egg = ""
-def eggroom(egg_room, current_room):
+def eggroom(egg_room, current_room, leave_egg):
     print("well theres a tree here...")
     print("you got the egg")
     leave_egg = input("do you want to leave? ")
@@ -682,7 +770,7 @@ def fightingroom(fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy,
         combat(player, enemy, turn, turn2, enemy_attack, sword)
         return fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room
     elif fight == "boss":
-        combat_boss(player, boss, boss_attack, turn_boss, turn2_boss)
+        combat_boss(player, boss, boss_attack, turn_boss, turn2_boss, sword)
         return fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room
     elif fight == "leave":
         current_room += 2
@@ -701,7 +789,7 @@ def room7(coin_amount, final_choice, current_room, player, boss):
     if coin_amount == 6:
         final_choice = input("the door opens, youre about to fight the final boss, are you sure you want to enter?")
         if final_choice == "yes":
-            combat_boss(player, boss)
+            combat_boss(player, boss, boss_attack, turn, turn2, enemy_attack, sword)
             print("you have won the game congrats!!!")
         elif final_choice == "no":
             current_room -= 1
@@ -737,12 +825,12 @@ while True:
     elif current_room == 5:
         weapon_grabbed, coinfound5, current_room, action5, coin_amount = room5(weapon_grabbed, coinfound5, current_room, action5, coin_amount)
     elif current_room == 6:
-        enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword = room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword)
+        enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword = room6(enemy_killed2, weapon_grabbed, enemy, player, search6, action6, current_room, turn, turn2, enemy_attack, sword, coin_amount)
     elif current_room == 7:
         coin_amount, final_choice, current_room, player, boss = room7(coin_amount, final_choice, current_room, player, boss)
     elif current_room == 8:
         current_room, player, castle_diamond, sword = roomCastle(current_room, player, castle_diamond, sword)
     elif current_room == 9:
-        egg_room, current_room = eggroom(egg_room, current_room)
+        egg_room, current_room = eggroom(egg_room, current_room, leave_egg)
     elif current_room == -1:
         fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room = fightingroom(fight, player, boss, boss_attack, turn_boss, turn2_boss, enemy, turn, turn2, enemy_attack, sword, current_room)
