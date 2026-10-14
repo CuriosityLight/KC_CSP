@@ -31,15 +31,23 @@ def roulette(choice_player, choice, coins, bet_amount, fun_again, color, red_num
             fun_again = input("bet again? ") .lower()
             while True:
                 if fun_again == "yes":
-                    bet_amount = int(input("how much would you like to bet. "))
+                    try:
+                        bet_amount = int(input("how much would you like to bet. "))
+                    except:
+                        print("number please")
                     if bet_amount <= coins:
                         break
+                    elif bet_amount == 0:
+                        print("you cant bet 0 coins")
                     else:
                         print("you dont have enough to do that bet")
             if fun_again == "yes":
                 break
             elif fun_again == "no":
                 return
+        if bet_amount < 0:
+            bet_amount *= -1
+
         choice_player = input("place a bet on black, red, green, even or odds, or a specific number. ") .lower()
         try:
             choice_player = int(choice_player)
@@ -273,8 +281,13 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
                 print("you win!")
                 return coins + round(bet_amount*2.5)
             elif total_player < total_dealer:
-                print("you lost")
-                return coins - bet_amount
+                if total_dealer >= 22:
+                    print("dealer went over")
+                    print("you win")
+                    return coins + round(bet_amount*2.5)
+                else:
+                    print("you lost")
+                    return coins - bet_amount
             else:
                 print("there was a push")
                 return coins
@@ -297,6 +310,8 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
 
 
 while True:
+    total_dealer = 0
+    total_player = 0
     if coins <= 0:
         print("well you gambled all your money and died")
     print("you have ", coins, "coins")
