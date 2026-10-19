@@ -228,14 +228,6 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
         if total_player > 21:
             print("you went over!")
             return coins - bet_amount
-        elif total_player == 21:
-            if total_dealer == 21:
-                print("there was a push!")
-                return coins
-            else:
-                print("you win!")
-                return coins + round(bet_amount*2.5)
-
         time.sleep(1)
         move = input("would you like to stay or hit: ")
         if move == "stay":
@@ -262,7 +254,17 @@ def jack(bet_amount, player_cards, cards, move, dealer_cards, player_type, deale
                     else:
                         print("you lost")
                         return coins - bet_amount
-                elif total_dealer <= 18:
+                elif total_player > 21:
+                    print("you went over!")
+                    return coins - bet_amount
+                elif total_player == 21:
+                    if total_dealer == 21:
+                        print("there was a push!")
+                        return coins
+                else:
+                    print("you win!")
+                    return coins + round(bet_amount*2.5)
+                if total_dealer <= 18:
                     new_card = rand.choice(cards)
                     dealer_cards.append(new_card)
                     new_type = rand.choice(type_cards)
